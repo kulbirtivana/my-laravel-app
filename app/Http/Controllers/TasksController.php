@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\tweet; //Need to pull in our model to use it.
+use App\User;
 use Auth; //Need to pull in Auth in order to use it.
-
 class TasksController extends Controller
 {
     /**
@@ -16,7 +16,9 @@ class TasksController extends Controller
     public function index()
     {
         //
-        $tweets = tweet::all();
+        //$tweets = tweet::all();
+        $tweets = tweet::query()
+        ->join('users', 'tweets.user_id', '=', 'users.id')->get();
         return view('tweets.index', compact('tweets'));
     }
 
@@ -47,11 +49,14 @@ class TasksController extends Controller
     if ($user = Auth::user()) //proceed and store data if the user is logged in.
         {
         $validatedData = $request->validate(array(
-            'message' => 'required|max:255',
-            'author' => 'required|max:64'
+            'message' => 'required|max:255'
         ));
-        $tweet = tweet::create( $validatedData);
+        $tweet = new tweet;
+        $tweet->user_id = $user->id;
+        $tweet->message = $validatedData['message'];
 
+        $tweet->save();  
+ 
         return redirect('/tweets')->with('success', 'Tweet saved');
         }
     return redirect('/tweets');
@@ -66,6 +71,10 @@ class TasksController extends Controller
     public function show($id)
     {
         //
+        $tweet = tweet::findOrFail($id);
+        $tweetUser = $tweet->user()->get()[0];
+        return view('tweets.show',compact('tweet'),
+            compact('tweetUser'));
     }
 
     /**
@@ -79,10 +88,10 @@ class TasksController extends Controller
         //
         if($user = Auth::user()){
        $tweet = tweet::findOrFail($id);
-       $tweet->delete();
-       return view('/tweets.edit')compact('tweet');
+       $tweet->edit();
+       return view('tweets.edit',compact('tweet'));
         }
-        return reditect('/tweets');
+        return redirect('/tweets');
 
     }
 
@@ -98,7 +107,6 @@ class TasksController extends Controller
         //
         $validatedData = $request->validate(array(
             'message' => 'required|max:255',
-            'author' => 'required|max:64'
         ));
 
         tweet::whereId($id)->update($validatedData);
@@ -121,7 +129,7 @@ class TasksController extends Controller
        $tweet->delete();
        return redirect('/tweets')->with('success', 'Tweet deleted');
         }
-        return reditect('/tweets')
+        return reditect('/tweets');
 
     }
 }

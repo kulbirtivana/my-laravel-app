@@ -14,7 +14,7 @@ Tweets Index
 <ul>
 	@foreach($tweets as $tweet)
 	<li>
-		<h2>{{$tweet->author}}</h2>
+		<h2>{{$tweet->name }}</h2>
 		<p>
 			{{$tweet->message}}
 		</p>

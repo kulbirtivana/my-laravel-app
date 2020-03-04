@@ -11,7 +11,8 @@ class TweetsTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        // we can seed specific data directory
+
         DB::table('tweets')->insert(array(
         	'author' => 'Kulbir',
         	'message' => 'Hello world'
@@ -24,5 +25,19 @@ class TweetsTableSeeder extends Seeder
         	'author' => 'Jenny',
         	'message' => 'Hello world3',
         	));
+
+        /**
+        Let's try "Faker" to prepopulate with lots of imaginery data very quickly!
+
+        */
+
+        $faker = Faker\Factory::create();
+
+        foreach(range(1, 25 ) as $index){
+        	DB::table( 'tweets')->insert(array(
+        		'author' => $faker->name,
+        		'message' => $faker->catchphrase
+        	));
+        }
     }
 }
