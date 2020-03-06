@@ -19,3 +19,4 @@ Route::resource('tweets', 'TasksController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/teams', 'TeamController@index')->name('teams');

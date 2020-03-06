@@ -31,22 +31,18 @@ Tweets Index
 	</form>
 	@endauth
 		</ul>
+		<ul>
+	<li>
+<a href="{{route('tweets.show', $tweet->id)}}">Read More</a>
+	</li>
+</ul>
 	@endforeach
 </ul>
+
 @if ( session()->get('success'))
 <div role="alert">
 	{{session()->get('success')}}
 </div>
 @endif
-<p>List of Tweets:</p>
-<ul>
-	@foreach($tweets as $tweet)
-	<li>
-		<h2>{{$tweet->author}}</h2>
-		<p>
-			{{$tweet->message}}
-		</p>
-		<ul>
-			<li>
-		@endforeach		
+	
 @endsection

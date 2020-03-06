@@ -24,7 +24,7 @@ class TasksController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     *php
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -88,7 +88,6 @@ class TasksController extends Controller
         //
         if($user = Auth::user()){
        $tweet = tweet::findOrFail($id);
-       $tweet->edit();
        return view('tweets.edit',compact('tweet'));
         }
         return redirect('/tweets');

@@ -12,6 +12,11 @@
 			<a href="{{ route('tweets.create') }}">
 				Edit
 			</a>
-			@endauth
 		</li>
-	</ul>
+			@endauth
+			<li>
+				<a href="{{ route('teams')}}">
+					Teams
+				</a>
+			</li>
+		</ul>

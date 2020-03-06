@@ -40,4 +40,7 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\tweet');
     }
+    public function teams(){
+        return $this->belongsToMany('App\Teams');
+    }
 }
